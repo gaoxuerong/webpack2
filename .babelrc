@@ -1,0 +1,12 @@
+{
+    "presets": [
+        "@babel/preset-env"
+    ],
+    "plugins": [
+        // decorators的要放在class的上边
+        "@babel/plugin-syntax-dynamic-import",
+        ["@babel/plugin-proposal-decorators",{ "legacy": true }],
+        ["@babel/plugin-proposal-class-properties",{ "loose" : true }],
+        "@babel/plugin-transform-runtime" //为了解决 generator这样的函数；还应该安装@babel/runtime，@babel/runtime这是生产环境用的
+    ]
+}

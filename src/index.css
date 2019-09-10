@@ -1,0 +1,11 @@
+@import './a.css';
+.btn {
+    width: 100px;
+    height: 100px;
+    background-color: aquamarine;
+    transform: rotate(45deg);
+}
+img {
+    width: 300px;
+    height: 300px;
+}
