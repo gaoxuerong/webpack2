@@ -4,6 +4,7 @@ const MiniCssPlugin = require('mini-css-extract-plugin') // 抽离css为一个�
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 优化css
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // 压缩js
 const { CleanWebpackPlugin } = require('clean-webpack-plugin') // 删除文件 插件
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack  = require('webpack')
 module.exports = {
   mode: 'development',
@@ -105,6 +106,12 @@ module.exports = {
     new MiniCssPlugin({
       filename: 'main.css'
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new webpack.BannerPlugin({
+        banner: 'edit 甘七',
+    }),
+    new CopyWebpackPlugin([
+      {from: './doc',to: './doc'}
+    ])
   ]
 }
