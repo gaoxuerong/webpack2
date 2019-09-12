@@ -32,6 +32,9 @@ module.exports = {
     progress: true,
     compress: true
   },
+  resolve:{ // 解析
+
+  },
   module: {
     rules: [
       // {
