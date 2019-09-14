@@ -11,11 +11,6 @@ class SyncHook {
     })
   }
 }
-let hook = new SyncHook(['name'])
-hook.tap('react',function(){
-  console.log('react',name)
-})
-hook.tap('node',function(){
-  console.log('node',name)
-})
-hook.call('甘七')
+module.exports = {
+  SyncHook
+}
