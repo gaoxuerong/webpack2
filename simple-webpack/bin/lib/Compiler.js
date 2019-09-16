@@ -1,11 +1,12 @@
 const fs = require('fs')
 const path = require('path')
-let babylon = require('babylon')
+const babylon = require('babylon')
 const t = require('@babel/types')
 const traverse = require('@babel/traverse').default
 const generator = require('@babel/generator').default
 const parser = require('@babel/parser')
 const ejs = require('ejs')
+const { SyncHook } = require('tapable')
 class Compiler {
   constructor(config) {
     this.config = config
@@ -15,6 +16,22 @@ class Compiler {
     this.modules = {}
     this.entry = config.entry // 入口路径
     this.root = process.cwd() // 工作路径
+    this.hooks = {
+      entryOption: new SyncHook(),
+      compile: new SyncHook(),
+      afterCompile: new SyncHook(),
+      afterPlugins: new SyncHook(),
+      run: new SyncHook(),
+      emit: new SyncHook(),
+      done: new SyncHook(),
+    }
+    let plugins = this.config.plugins
+    if(Array.isArray(plugins)) {
+      plugins.forEach((plugin)=>{
+        plugin.apply(this)
+      })
+    }
+    this.hooks.afterPlugins.call()
   }
   getSource(modulePath) {
     let rules = this.config.module.rules
@@ -91,10 +108,15 @@ class Compiler {
     fs.writeFileSync(mainOutput,this.assets[mainOutput])
   }
   run() {
+    this.hooks.run.call()
     // 执行并创建所有的模块依赖关系
+    this.hooks.compile.call()
     this.buildModule(path.resolve(this.root, this.entry), true)
+    this.hooks.afterCompile.call()
     // 发射一个文件，打包后的文件
     this.emitFile()
+    this.hooks.emit.call()
+    this.hooks.done.call()
   }
 }
 

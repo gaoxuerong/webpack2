@@ -12,6 +12,7 @@ module.exports = {
   // externals: {// 里边的内容不打包，被忽略
   //   jquery: '$'
   // },
+  devtool:'source-map',
   output: {
     filename: 'bundle.[hash:5].js',
     // publicPath: 'http://cdn.dtwave.com/',
