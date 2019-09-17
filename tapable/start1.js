@@ -1,6 +1,6 @@
 const {
   SyncHook
-} = require("./case1.js");
+} = require("./SyncHook.js");
 class Lesson{
   constructor(){
     this.hooks = {
