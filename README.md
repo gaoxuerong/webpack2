@@ -52,3 +52,20 @@ new webpack.BannerPlugin({
   banner: 'edit 甘七',
 }),
 ```
+### 8.MiniCssPlugin
+> 这个插件是抽离css为一个单独的文件，因为把css文件打包到js里边加载太浪费时间；
+```
+const MiniCssPlugin = require('mini-css-extract-plugin')
+{
+  test: /\.css$/, //css-loader 接续@import 这种语法的；style-loader它是把css插到head标签中；
+  use: [MiniCssPlugin.loader, 'css-loader','postcss-loader']
+},
+{
+  test: /\.less$/,
+  use: [MiniCssPlugin.loader, 'css-loader','postcss-loader','less-loader']
+}
+在插件里：
+ new MiniCssPlugin({
+      filename: 'main.css'
+    }),
+```
