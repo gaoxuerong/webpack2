@@ -21,7 +21,35 @@ new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
 
 ```
 ### 3.dllPlugin
->这个插件会生成一个manifest.json的文件；对于第三方依赖的库如vue，vuex，react等，我们在打包时会和自己本地的代码分开打包，这样做的好处是不会再去多次编译第三方库，第三方库在第一次打包的时候只打包一次，以后只要不升级第三方包，webpack就不会再打包，大大加快了构建速度；参考：https://www.cnblogs.com/tugenhua0707/p/9520780.html
+>这个插件会生成一个manifest.json的文件；对于第三方依赖的库如vue，vuex，react等，我们在打包时会和自己本地的代码分开打包，这样做的好处是不会再去多次编译第三方库，第三方库在第一次打包的时候只打包一次，以后只要不升级第三方包，webpack就不会再打包，大大加快了构建速度；
+```
+用法：新建个webpack.vendor.config.js文件，内容为：
+const path = require('path');
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+module.exports = {
+    mode: 'development',
+    entry: {
+        react: ['react','react-dom']
+    },
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'vendor.dll.js',
+        library: '[name]_dll_lib'
+    },
+    plugins: [
+        new CleanWebpackPlugin(),
+        new webpack.DllPlugin({
+            path: path.join(__dirname, 'dist', 'manifest.json'),
+            name: '[name]_dll_lib'
+        })
+    ]
+}
+在原来的webpack.config.js里边写下：
+`new webpack.DllReferencePlugin({
+  manifest: require('./dist/manifest.json')
+}),`
+```
 ### 4.noParse
 >module: {
 >    noParse: /jquery|lodash/

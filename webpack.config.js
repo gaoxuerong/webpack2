@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssPlugin = require('mini-css-extract-plugin') // 抽离css为一个单独文件
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 优化css
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // 压缩js
-const { CleanWebpackPlugin } = require('clean-webpack-plugin') // 删除文件 插件
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin') // 删除文件 插件
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack  = require('webpack')
 module.exports = {
@@ -107,10 +107,13 @@ module.exports = {
       },
       hash: true
     }),
+    new webpack.DllReferencePlugin({
+      manifest: require('./dist/manifest.json')
+    }),
     new MiniCssPlugin({
       filename: 'main.css'
     }),
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
     new webpack.BannerPlugin({
         banner: 'edit 甘七',
     }),
